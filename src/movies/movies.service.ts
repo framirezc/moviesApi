@@ -3,12 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Movie } from './movie.model';
 import * as mongoose from 'mongoose';
+import { RedisCacheService } from 'src/redis-cache/redis-cache.service';
 
 
 @Injectable()
 export class MoviesService {
 
-    constructor(@InjectModel('Movie') private readonly movieModel: Model<Movie>) {}
+    constructor(@InjectModel('Movie') private readonly movieModel: Model<Movie>, 
+        private cacheManager: RedisCacheService    
+    ) {}
+
 
     public async findAllMovies(query: string) {        
 
@@ -24,7 +28,7 @@ export class MoviesService {
 
     public async findOneMovie(movieId: string): Promise<Movie> {
         let movie;
-        
+                
         if (mongoose.isValidObjectId(movieId)) {            
             try {
                 movie = await this.movieModel.findById(movieId).exec();                 
@@ -40,6 +44,14 @@ export class MoviesService {
 
         return movie;
 
+    }
+
+    async setSomeValue(KEY , value){
+        await this.cacheManager.set(KEY , value);
+    }
+    
+    getSomeValue(KEY: string){
+        this.cacheManager.get(KEY);
     }
 
 }
