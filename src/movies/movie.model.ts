@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import * as mongoose from 'mongoose';
 
 export const MovieSchema = new mongoose.Schema({
@@ -8,8 +9,8 @@ export const MovieSchema = new mongoose.Schema({
 
 });
 
-export interface Movie extends mongoose.Document {    
-    id: string;
+export interface Movie extends mongoose.Document {       
+    id: string;    
     title: string;
     year: number;
     cast: string[];
