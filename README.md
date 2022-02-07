@@ -20,6 +20,8 @@ In other terminal, (not mongo-shell) run the import script.
 $ mongoimport --jsonArray --db titles --collection movies --file movies.json
 ```
 
+In order to run the Redis service it is important to install Redis and to be sure that the service is running on the default port 6379.
+
 ## Installation
 
 ```bash
